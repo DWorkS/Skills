@@ -52,10 +52,10 @@ import { onMessage, sendMessage } from 'webext-bridge/devtools';
 // types/messages.ts
 declare module 'webext-bridge' {
   export interface ProtocolMap {
-    'get-settings': { data: void; response: Settings };
-    'save-settings': { data: Settings; response: void };
-    'extract-page': { data: { url: string }; response: { text: string } };
-    'highlight-text': { data: { text: string; color: string }; response: void };
+    'get-settings': { data: void; response: Settings }
+    'save-settings': { data: Settings; response: void }
+    'extract-page': { data: { url: string }; response: { text: string } }
+    'highlight-text': { data: { text: string; color: string }; response: void }
   }
 }
 ```
@@ -65,21 +65,21 @@ declare module 'webext-bridge' {
 import { onMessage } from 'webext-bridge/background';
 
 onMessage('get-settings', async () => {
-  return await settingsStorage.getValue();
-});
+  return await settingsStorage.getValue()
+})
 
 onMessage('extract-page', async ({ data }) => {
-  const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
-  const result = await sendMessage('do-extract', {}, `content-script@${tab.id}`);
-  return { text: result.text };
-});
+  const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
+  const result = await sendMessage('do-extract', {}, `content-script@${tab.id}`)
+  return { text: result.text }
+})
 ```
 
 ```typescript
 // entrypoints/sidepanel/App.vue
 import { sendMessage } from 'webext-bridge/side-panel';
 
-const settings = await sendMessage('get-settings', undefined);
+const settings = await sendMessage('get-settings', undefined)
 // settings is typed as Settings
 ```
 
@@ -88,11 +88,11 @@ const settings = await sendMessage('get-settings', undefined);
 import { onMessage, sendMessage } from 'webext-bridge/content-script';
 
 onMessage('do-extract', async () => {
-  return { text: document.body.innerText };
-});
+  return { text: document.body.innerText }
+})
 
 // Send to background
-const result = await sendMessage('save-settings', newSettings);
+const result = await sendMessage('save-settings', newSettings)
 ```
 
 ### Sending to Specific Tabs
@@ -104,7 +104,7 @@ Content scripts are identified by `content-script@{tabId}`:
 import { sendMessage } from 'webext-bridge/background';
 
 async function highlightInTab(tabId: number, text: string) {
-  await sendMessage('highlight-text', { text, color: 'yellow' }, `content-script@${tabId}`);
+  await sendMessage('highlight-text', { text, color: 'yellow' }, `content-script@${tabId}`)
 }
 ```
 
@@ -151,8 +151,8 @@ Simple request-response pattern.
 const response = await browser.runtime.sendMessage({
   type: 'GET_DATA',
   payload: { id: '123' },
-});
-console.log('Response:', response);
+})
+console.log('Response:', response)
 ```
 
 ### Listen in Background
@@ -163,15 +163,15 @@ export default defineBackground(() => {
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === 'GET_DATA') {
       // Sync response
-      sendResponse({ success: true, data: [] });
+      sendResponse({ success: true, data: [] })
 
       // For async: return true and call sendResponse later
-      // handleAsync(message).then(sendResponse);
+      // handleAsync(message).then(sendResponse)
       // return true;
     }
-    return false; // No async response
-  });
-});
+    return false // No async response
+  })
+})
 ```
 
 ### Async Handler Pattern
@@ -181,15 +181,15 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'FETCH_DATA') {
     (async () => {
       try {
-        const data = await fetchData(message.payload);
-        sendResponse({ success: true, data });
+        const data = await fetchData(message.payload)
+        sendResponse({ success: true, data })
       } catch (error) {
-        sendResponse({ success: false, error: error.message });
+        sendResponse({ success: false, error: error.message })
       }
-    })();
-    return true; // Keep message channel open
+    })()
+    return true // Keep message channel open
   }
-});
+})
 ```
 
 ---
@@ -205,20 +205,20 @@ For continuous communication or streaming data.
 export default defineContentScript({
   matches: ['https://example.com/*'],
   main(ctx) {
-    const port = browser.runtime.connect({ name: 'content-channel' });
+    const port = browser.runtime.connect({ name: 'content-channel' })
 
     port.onMessage.addListener((message) => {
-      console.log('Received from background:', message);
-    });
+      console.log('Received from background:', message)
+    })
 
-    port.postMessage({ type: 'HELLO', url: window.location.href });
+    port.postMessage({ type: 'HELLO', url: window.location.href })
 
     // Cleanup on invalidation
     ctx.onInvalidated(() => {
-      port.disconnect();
-    });
+      port.disconnect()
+    })
   },
-});
+})
 ```
 
 ### Background Handler
@@ -226,29 +226,29 @@ export default defineContentScript({
 ```typescript
 // entrypoints/background.ts
 export default defineBackground(() => {
-  const connections = new Map<number, browser.Runtime.Port>();
+  const connections = new Map<number, browser.Runtime.Port>()
 
   browser.runtime.onConnect.addListener((port) => {
     if (port.name === 'content-channel') {
-      const tabId = port.sender?.tab?.id;
-      if (tabId) connections.set(tabId, port);
+      const tabId = port.sender?.tab?.id
+      if (tabId) connections.set(tabId, port)
 
       port.onMessage.addListener((message) => {
-        console.log('From content script:', message);
-        port.postMessage({ type: 'ACK', received: message.type });
-      });
+        console.log('From content script:', message)
+        port.postMessage({ type: 'ACK', received: message.type })
+      })
 
       port.onDisconnect.addListener(() => {
-        if (tabId) connections.delete(tabId);
-      });
+        if (tabId) connections.delete(tabId)
+      })
     }
-  });
+  })
 
   // Broadcast to all connected content scripts
   function broadcast(message: unknown) {
-    connections.forEach((port) => port.postMessage(message));
+    connections.forEach((port) => port.postMessage(message))
   }
-});
+})
 ```
 
 ---
@@ -262,7 +262,7 @@ export default defineBackground(() => {
 const response = await browser.runtime.sendMessage({
   type: 'PAGE_DATA',
   data: { url: window.location.href, title: document.title },
-});
+})
 ```
 
 ### With Tab Information
@@ -272,10 +272,10 @@ Background automatically receives sender info:
 ```typescript
 // background.ts
 browser.runtime.onMessage.addListener((message, sender) => {
-  console.log('From tab:', sender.tab?.id);
-  console.log('From URL:', sender.tab?.url);
-  console.log('Frame ID:', sender.frameId);
-});
+  console.log('From tab:', sender.tab?.id)
+  console.log('From URL:', sender.tab?.url)
+  console.log('Frame ID:', sender.frameId)
+})
 ```
 
 ---
@@ -288,18 +288,18 @@ browser.runtime.onMessage.addListener((message, sender) => {
 // background.ts
 async function sendToTab(tabId: number, message: unknown) {
   try {
-    const response = await browser.tabs.sendMessage(tabId, message);
-    return response;
+    const response = await browser.tabs.sendMessage(tabId, message)
+    return response
   } catch (error) {
     // Content script may not be loaded
-    console.error('Failed to send to tab:', error);
+    console.error('Failed to send to tab:', error)
   }
 }
 
 // Usage
-const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+const [tab] = await browser.tabs.query({ active: true, currentWindow: true })
 if (tab?.id) {
-  await sendToTab(tab.id, { type: 'UPDATE_UI', data: {} });
+  await sendToTab(tab.id, { type: 'UPDATE_UI', data: {} })
 }
 ```
 
@@ -307,19 +307,19 @@ if (tab?.id) {
 
 ```typescript
 async function broadcastToPattern(pattern: string, message: unknown) {
-  const tabs = await browser.tabs.query({ url: pattern });
+  const tabs = await browser.tabs.query({ url: pattern })
   const results = await Promise.allSettled(
     tabs.map((tab) =>
       tab.id ? browser.tabs.sendMessage(tab.id, message) : Promise.reject()
     )
-  );
-  return results;
+  )
+  return results
 }
 
 // Usage
 await broadcastToPattern('https://docs.google.com/*', {
   type: 'REFRESH',
-});
+})
 ```
 
 ### Listen in Content Script
@@ -331,13 +331,13 @@ export default defineContentScript({
   main(ctx) {
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
       if (message.type === 'GET_PAGE_DATA') {
-        const data = extractPageData();
-        sendResponse(data);
+        const data = extractPageData()
+        sendResponse(data)
       }
-      return false;
-    });
+      return false
+    })
   },
-});
+})
 ```
 
 ---
@@ -355,7 +355,7 @@ export type RequestMessage =
   | { type: 'DOC_OPEN'; doc: DocPayload }
   | { type: 'DOC_CHUNK'; docId: string; chunk: string; index: number; total: number }
   | { type: 'DOC_DONE'; docId: string }
-  | { type: 'CANCEL'; docId: string };
+  | { type: 'CANCEL'; docId: string }
 
 // Response types
 export type ResponseMessage =
@@ -363,7 +363,7 @@ export type ResponseMessage =
   | { type: 'PROGRESS'; docId: string; stage: string; percent: number }
   | { type: 'SUGGESTIONS'; docId: string; batchId: string; items: Suggestion[] }
   | { type: 'DONE'; docId: string }
-  | { type: 'ERROR'; code: ErrorCode; message: string };
+  | { type: 'ERROR'; code: ErrorCode; message: string }
 
 export type ErrorCode =
   | 'VERSION_MISMATCH'
@@ -373,28 +373,28 @@ export type ErrorCode =
 
 // Payloads
 export interface DocPayload {
-  docId: string;
-  title: string;
-  source: { type: 'google-docs' | 'overleaf'; id: string; url: string };
-  cursorContext?: { before: string; after: string };
-  headings?: { text: string; start: number }[];
+  docId: string
+  title: string
+  source: { type: 'google-docs' | 'overleaf'; id: string; url: string }
+  cursorContext?: { before: string; after: string }
+  headings?: { text: string; start: number }[]
 }
 
 export interface Suggestion {
-  id: string;
-  title: string;
-  category: string;
-  suggestion: string;
-  rationale: string;
-  sources?: { label: string; url: string }[];
-  confidence: number;
+  id: string
+  title: string
+  category: string
+  suggestion: string
+  rationale: string
+  sources?: { label: string; url: string }[]
+  confidence: number
 }
 
 // Envelope wrapper
 export interface MessageEnvelope<T> {
-  protocolVersion: string;
-  timestamp: number;
-  message: T;
+  protocolVersion: string
+  timestamp: number
+  message: T
 }
 
 export function createMessage<T extends RequestMessage>(
@@ -404,7 +404,7 @@ export function createMessage<T extends RequestMessage>(
     protocolVersion: PROTOCOL_VERSION,
     timestamp: Date.now(),
     message,
-  };
+  }
 }
 ```
 
@@ -416,54 +416,54 @@ import type { RequestMessage, ResponseMessage } from './protocol';
 
 type Handler<T extends RequestMessage['type']> = (
   message: Extract<RequestMessage, { type: T }>
-) => Promise<ResponseMessage>;
+) => Promise<ResponseMessage>
 
 export class MessageRouter {
-  private handlers = new Map<string, Handler<any>>();
+  private handlers = new Map<string, Handler<any>>()
 
   on<T extends RequestMessage['type']>(type: T, handler: Handler<T>): this {
-    this.handlers.set(type, handler);
-    return this;
+    this.handlers.set(type, handler)
+    return this
   }
 
   async handle(message: RequestMessage): Promise<ResponseMessage> {
-    const handler = this.handlers.get(message.type);
+    const handler = this.handlers.get(message.type)
     if (!handler) {
-      return { type: 'ERROR', code: 'INVALID_DOC', message: `Unknown type: ${message.type}` };
+      return { type: 'ERROR', code: 'INVALID_DOC', message: `Unknown type: ${message.type}` }
     }
-    return handler(message);
+    return handler(message)
   }
 }
 
 // Usage in background
 const router = new MessageRouter()
   .on('DOC_OPEN', async (msg) => {
-    await processDocument(msg.doc);
-    return { type: 'ACK', requestType: 'DOC_OPEN' };
+    await processDocument(msg.doc)
+    return { type: 'ACK', requestType: 'DOC_OPEN' }
   })
   .on('DOC_CHUNK', async (msg) => {
-    await storeChunk(msg.docId, msg.chunk, msg.index);
-    return { type: 'ACK', requestType: 'DOC_CHUNK' };
-  });
+    await storeChunk(msg.docId, msg.chunk, msg.index)
+    return { type: 'ACK', requestType: 'DOC_CHUNK' }
+  })
 ```
 
 ### Chunked Data Transfer
 
 ```typescript
 // lib/chunker.ts
-const CHUNK_SIZE = 200 * 1024; // 200 KB
+const CHUNK_SIZE = 200 * 1024 // 200 KB
 
 export function* chunkText(text: string): Generator<{ chunk: string; index: number; total: number }> {
-  const encoder = new TextEncoder();
-  const bytes = encoder.encode(text);
-  const total = Math.ceil(bytes.length / CHUNK_SIZE);
+  const encoder = new TextEncoder()
+  const bytes = encoder.encode(text)
+  const total = Math.ceil(bytes.length / CHUNK_SIZE)
 
   for (let i = 0; i < total; i++) {
-    const start = i * CHUNK_SIZE;
-    const end = Math.min(start + CHUNK_SIZE, bytes.length);
-    const chunkBytes = bytes.slice(start, end);
-    const chunk = new TextDecoder().decode(chunkBytes);
-    yield { chunk, index: i, total };
+    const start = i * CHUNK_SIZE
+    const end = Math.min(start + CHUNK_SIZE, bytes.length)
+    const chunkBytes = bytes.slice(start, end)
+    const chunk = new TextDecoder().decode(chunkBytes)
+    yield { chunk, index: i, total }
   }
 }
 
@@ -476,9 +476,9 @@ async function sendDocument(docId: string, text: string) {
       chunk,
       index,
       total,
-    });
+    })
   }
-  await sendMessage({ type: 'DOC_DONE', docId });
+  await sendMessage({ type: 'DOC_DONE', docId })
 }
 ```
 
@@ -497,10 +497,10 @@ browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
         type: 'ERROR',
         code: 'PROCESSING_FAILED',
         message: error.message,
-      });
-    });
-  return true;
-});
+      })
+    })
+  return true
+})
 ```
 
 ### Timeout Handling
@@ -512,7 +512,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
     new Promise<T>((_, reject) =>
       setTimeout(() => reject(new Error('Timeout')), ms)
     ),
-  ]);
+  ])
 }
 
 // Usage
@@ -520,7 +520,7 @@ try {
   const response = await withTimeout(
     browser.runtime.sendMessage({ type: 'GET_DATA' }),
     5000
-  );
+  )
 } catch (error) {
   if (error.message === 'Timeout') {
     // Handle timeout
@@ -538,12 +538,12 @@ async function withRetry<T>(
 ): Promise<T> {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      return await fn();
+      return await fn()
     } catch (error) {
-      if (attempt === maxAttempts) throw error;
-      await new Promise((r) => setTimeout(r, delay * attempt));
+      if (attempt === maxAttempts) throw error
+      await new Promise((r) => setTimeout(r, delay * attempt))
     }
   }
-  throw new Error('Unreachable');
+  throw new Error('Unreachable')
 }
 ```

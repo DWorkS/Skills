@@ -1,0 +1,42 @@
+{
+  "name": "pagenote-pro",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Save and organise text snippets from any webpage — your research companion",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "yarn lint && yarn test && wxt build",
+    "build:firefox": "yarn lint && yarn test && wxt build -b firefox",
+    "zip": "yarn lint && yarn test && wxt zip",
+    "zip:all": "yarn lint && yarn test && wxt zip && wxt zip -b firefox",
+    "compile": "wxt prepare && tsc --noEmit",
+    "postinstall": "wxt prepare",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^4.6.0",
+    "@vueuse/core": "^14.2.1",
+    "@wxt-dev/i18n": "^0.2.0",
+    "pinia": "^3.0.4",
+    "webext-bridge": "^6.0.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^8.0.0",
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^25.5.0",
+    "@wxt-dev/auto-icons": "^1.1.1",
+    "@wxt-dev/module-vue": "^1.0.3",
+    "eslint": "^10.1.0",
+    "jsdom": "^29.0.1",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2",
+    "vue": "^3.4.0",
+    "wxt": "^0.20.20"
+  }
+}

@@ -25,7 +25,7 @@ export default defineBackground({
   main() {
     // All extension startup logic goes here
   },
-});
+})
 ```
 
 **Key rules**:
@@ -52,7 +52,7 @@ import { createApp } from 'vue';
 import ui from '@nuxt/ui/vue-plugin';
 import App from './App.vue';
 
-createApp(App).use(ui).mount('#app');
+createApp(App).use(ui).mount('#app')
 ```
 
 ## Side Panel
@@ -75,17 +75,17 @@ manifest: {
 // entrypoints/background.ts
 // Open on icon click (most common pattern)
 browser.action.onClicked.addListener(async (tab) => {
-  await browser.sidePanel.open({ tabId: tab.id! });
-});
+  await browser.sidePanel.open({ tabId: tab.id! })
+})
 
 // Or open from any page/popup
-await browser.sidePanel.open({ windowId: browser.windows.WINDOW_ID_CURRENT });
+await browser.sidePanel.open({ windowId: browser.windows.WINDOW_ID_CURRENT })
 
 // Enable per-tab (disable by default, enable for specific pages)
 browser.tabs.onUpdated.addListener((tabId, _info, tab) => {
-  const enabled = tab.url?.includes('example.com') ?? false;
-  browser.sidePanel.setOptions({ tabId, enabled });
-});
+  const enabled = tab.url?.includes('example.com') ?? false
+  browser.sidePanel.setOptions({ tabId, enabled })
+})
 ```
 
 The side panel persists across page navigations — it's ideal for persistent AI assistants and research tools.
@@ -109,15 +109,15 @@ import { createPinia } from 'pinia';
 import ui from '@nuxt/ui/vue-plugin';
 import App from './App.vue';
 
-const app = createApp(App);
-app.use(createPinia());
-app.use(ui);
-app.mount('#app');
+const app = createApp(App)
+app.use(createPinia())
+app.use(ui)
+app.mount('#app')
 ```
 
 Open options page programmatically:
 ```typescript
-browser.runtime.openOptionsPage();
+browser.runtime.openOptionsPage()
 ```
 
 ## New Tab Override
@@ -133,7 +133,7 @@ No special manifest configuration needed — WXT adds `chrome_url_overrides` aut
 import { createApp } from 'vue';
 import ui from '@nuxt/ui/vue-plugin';
 import App from './App.vue';
-createApp(App).use(ui).mount('#app');
+createApp(App).use(ui).mount('#app')
 ```
 
 **Note**: Avoid making network requests on new tab load — they delay page render.
@@ -177,10 +177,10 @@ chrome.devtools.panels.create(
   'devtools-panel.html',   // Panel HTML (unlisted page)
   (panel) => {
     panel.onShown.addListener((window) => {
-      window.document.getElementById('app')?.setAttribute('data-active', 'true');
-    });
+      window.document.getElementById('app')?.setAttribute('data-active', 'true')
+    })
   }
-);
+)
 ```
 
 ```html
@@ -199,7 +199,7 @@ chrome.devtools.panels.create(
 import { createApp } from 'vue';
 import ui from '@nuxt/ui/vue-plugin';
 import DevToolsApp from '../components/DevToolsApp.vue';
-createApp(DevToolsApp).use(ui).mount('#app');
+createApp(DevToolsApp).use(ui).mount('#app')
 ```
 
 DevTools pages have access to `chrome.devtools.*` APIs for inspecting the current page.
@@ -216,14 +216,14 @@ A sandboxed page that runs in a unique origin with no access to extension APIs o
 Communication is via `window.postMessage`:
 ```typescript
 // From extension page to sandbox
-sandboxFrame.contentWindow?.postMessage({ type: 'RUN', code }, '*');
+sandboxFrame.contentWindow?.postMessage({ type: 'RUN', code }, '*')
 
 // In sandbox
 window.addEventListener('message', (event) => {
   if (event.data.type === 'RUN') {
     // eval(event.data.code) is allowed here
   }
-});
+})
 ```
 
 ## Content Scripts
@@ -254,7 +254,7 @@ export default defineContentScript({
     // ctx.addEventListener(target, event, cb) — auto-cleaned up on invalidation
     // ctx.setInterval / ctx.setTimeout — auto-cleaned up
   },
-});
+})
 ```
 
 ### Content Script UI Modes
@@ -274,14 +274,14 @@ const ui = await createShadowRootUi(ctx, {
   append: 'last',          // 'first' | 'last' | 'before' | 'after'
   zIndex: 999999,          // For overlay and modal positions
   onMount(container, shadow, shadowHost) {
-    const app = createApp(MyApp);
-    app.mount(container);
-    return app;
+    const app = createApp(MyApp)
+    app.mount(container)
+    return app
   },
   onRemove(app) { app?.unmount(); },
-});
+})
 
-ui.mount();
+ui.mount()
 // ui.remove();
 // ui.autoMount(); — watches DOM, mounts/unmounts as anchor appears/disappears
 ```
@@ -297,16 +297,16 @@ await browser.scripting.registerContentScripts([{
   matches: ['*://user-defined-site.com/*'],
   js: ['content-scripts/content.js'],
   runAt: 'document_idle',
-}]);
+}])
 
 // Update later
 await browser.scripting.updateContentScripts([{
   id: 'dynamic-script',
   matches: ['*://new-site.com/*'],
-}]);
+}])
 
 // Remove
-await browser.scripting.unregisterContentScripts({ ids: ['dynamic-script'] });
+await browser.scripting.unregisterContentScripts({ ids: ['dynamic-script'] })
 ```
 
 Requires `"scripting"` permission.
@@ -319,7 +319,7 @@ Not added to manifest, not accessible from UI — but reachable via URL.
 
 ```typescript
 // Access from background or content:
-const url = browser.runtime.getURL('/my-unlisted-page.html');
+const url = browser.runtime.getURL('/my-unlisted-page.html')
 // Result: chrome-extension://{id}/my-unlisted-page.html
 ```
 
@@ -333,9 +333,9 @@ Opening on install:
 // entrypoints/background.ts
 browser.runtime.onInstalled.addListener(({ reason }) => {
   if (reason === 'install') {
-    browser.tabs.create({ url: browser.runtime.getURL('/welcome.html') });
+    browser.tabs.create({ url: browser.runtime.getURL('/welcome.html') })
   }
-});
+})
 ```
 
 ## Unlisted Scripts
@@ -351,13 +351,13 @@ Not bundled with any entrypoint. Used for:
 // entrypoints/injected-main.ts
 export default defineUnlistedScript(() => {
   // Runs in page context (main world)
-  window.__MY_EXT__ = { version: '1.0', api: myApi };
-});
+  window.__MY_EXT__ = { version: '1.0', api: myApi }
+})
 ```
 
 ```typescript
 // entrypoints/content.ts
-await injectScript('/injected-main.js', { keepInDom: true });
+await injectScript('/injected-main.js', { keepInDom: true })
 ```
 
 Required in manifest for web-accessible scripts:
@@ -382,7 +382,7 @@ Not added to manifest. Can be:
 await browser.scripting.insertCSS({
   target: { tabId: tab.id! },
   files: ['content-scripts/my-styles.css'],
-});
+})
 ```
 
 ## HTML Meta Options Reference

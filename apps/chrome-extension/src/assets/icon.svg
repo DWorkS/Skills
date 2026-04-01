@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- Background rounded square -->
+  <rect width="128" height="128" rx="24" fill="#6366f1"/>
+  <!-- Bookmark body -->
+  <path d="M34 28h60a6 6 0 0 1 6 6v56l-32-16-32 16V34a6 6 0 0 1 6-6z" fill="white" opacity="0.95"/>
+  <!-- Text lines representing a snippet -->
+  <rect x="46" y="46" width="36" height="5" rx="2.5" fill="#6366f1" opacity="0.5"/>
+  <rect x="46" y="57" width="28" height="5" rx="2.5" fill="#6366f1" opacity="0.5"/>
+  <rect x="46" y="68" width="20" height="5" rx="2.5" fill="#6366f1" opacity="0.5"/>
+  <!-- Plus badge (action indicator) -->
+  <circle cx="96" cy="96" r="20" fill="#f59e0b"/>
+  <rect x="89" y="94" width="14" height="4" rx="2" fill="white"/>
+  <rect x="94" y="89" width="4" height="14" rx="2" fill="white"/>
+</svg>

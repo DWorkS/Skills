@@ -19,7 +19,7 @@ Complete reference for `wxt.config.ts` options.
 import { defineConfig } from 'wxt';
 
 export default defineConfig({
-  // Source directory (default: current directory)
+  // Source directory — recommended to keep root clean (set to 'src')
   srcDir: 'src',
 
   // Output directory (default: .output)
@@ -45,7 +45,7 @@ export default defineConfig({
 
   // Vite configuration
   vite: () => ({ /* ... */ }),
-});
+})
 ```
 
 ---
@@ -138,7 +138,7 @@ export default defineConfig({
       128: 'icon-128.png',
     },
   },
-});
+})
 ```
 
 ---
@@ -163,12 +163,12 @@ export default defineBackground({
   main() {
     // Entry point code
   },
-});
+})
 
 // Simplified version
 export default defineBackground(() => {
   // Entry point code
-});
+})
 ```
 
 ### Content Scripts
@@ -213,7 +213,7 @@ export default defineContentScript({
     // ctx.invalidated - true when script should stop
     // ctx.addEventListener() - auto-cleanup listeners
   },
-});
+})
 ```
 
 ### HTML Entrypoints (Popup, Side Panel, Options)
@@ -286,7 +286,7 @@ pnpm add -D @wxt-dev/module-vue
 ```typescript
 export default defineConfig({
   modules: ['@wxt-dev/module-vue'],
-});
+})
 ```
 
 ### Other Official WXT Modules
@@ -298,7 +298,7 @@ export default defineConfig({
     '@wxt-dev/auto-icons',
     '@wxt-dev/i18n/module',
   ],
-});
+})
 ```
 
 ### Auto Icons Module
@@ -311,28 +311,39 @@ pnpm add -D @wxt-dev/auto-icons
 export default defineConfig({
   modules: ['@wxt-dev/auto-icons'],
   autoIcons: {
-    baseIconPath: 'assets/icon.svg',
+    baseIconPath: 'assets/icon.png',  // PNG source (not SVG)
     sizes: [16, 32, 48, 96, 128],
   },
-});
+})
 ```
 
-### Custom Vite Plugins
+### Custom Vite Plugins (including Nuxt UI theme)
 
 ```typescript
 import ui from '@nuxt/ui/vite';
 
 export default defineConfig({
   vite: () => ({
-    plugins: [ui({ router: false, colorMode: true })],
+    plugins: [
+      ui({
+        router: false,      // Extensions do not use vue-router
+        colorMode: true,    // Enable dark/light mode via @vueuse/core
+
+        // Semantic color aliases — use any Tailwind color name or a custom
+        // color defined with @theme in assets/main.css.
+        ui: {
+          colors: {
+            primary: 'rose', // Change to 'blue', 'violet', custom 'brand', …
+            neutral: 'neutral', // Change to 'neutral', 'slate', custom 'base', …
+          },
+        },
+      }),
+    ],
     build: {
       sourcemap: true,
     },
-    css: {
-      postcss: './postcss.config.js',
-    },
   }),
-});
+})
 ```
 
 ---
@@ -394,7 +405,7 @@ export default defineConfig({
       },
     },
   },
-});
+})
 ```
 
 ---
@@ -403,14 +414,14 @@ export default defineConfig({
 
 ```typescript
 // Access in code
-const apiUrl = import.meta.env.VITE_API_URL;
-const isDev = import.meta.env.DEV;
-const isProd = import.meta.env.PROD;
-const mode = import.meta.env.MODE;
+const apiUrl = import.meta.env.VITE_API_URL
+const isDev = import.meta.env.DEV
+const isProd = import.meta.env.PROD
+const mode = import.meta.env.MODE
 
 // WXT-specific
-const browser = import.meta.env.BROWSER; // 'chrome' | 'firefox' | etc.
-const manifestVersion = import.meta.env.MANIFEST_VERSION; // 2 | 3
+const browser = import.meta.env.BROWSER // 'chrome' | 'firefox' | etc.
+const manifestVersion = import.meta.env.MANIFEST_VERSION // 2 | 3
 ```
 
 **.env files:**

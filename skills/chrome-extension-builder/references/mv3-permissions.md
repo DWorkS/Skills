@@ -58,14 +58,14 @@ Access `chrome.storage` API for persistent data.
 
 ```typescript
 // Local storage (per device)
-await chrome.storage.local.set({ key: 'value' });
-const { key } = await chrome.storage.local.get('key');
+await chrome.storage.local.set({ key: 'value' })
+const { key } = await chrome.storage.local.get('key')
 
 // Sync storage (across devices if signed in)
-await chrome.storage.sync.set({ settings: {} });
+await chrome.storage.sync.set({ settings: {} })
 
 // Session storage (cleared on browser close)
-await chrome.storage.session.set({ temp: 'data' });
+await chrome.storage.session.set({ temp: 'data' })
 ```
 
 **Limits:**
@@ -86,8 +86,8 @@ browser.action.onClicked.addListener(async (tab) => {
   await chrome.scripting.executeScript({
     target: { tabId: tab.id },
     files: ['content.js'],
-  });
-});
+  })
+})
 ```
 
 **Benefits:** No scary permission warnings. Access granted per-click.
@@ -104,19 +104,19 @@ await chrome.scripting.executeScript({
   target: { tabId },
   files: ['inject.js'],
   world: 'MAIN', // or 'ISOLATED'
-});
+})
 
 // Inject CSS
 await chrome.scripting.insertCSS({
   target: { tabId },
   css: '.highlight { background: yellow; }',
-});
+})
 
 // Remove CSS
 await chrome.scripting.removeCSS({
   target: { tabId },
   css: '.highlight { background: yellow; }',
-});
+})
 ```
 
 ---
@@ -127,17 +127,17 @@ Full tab management and access to tab URLs.
 
 ```typescript
 // Query tabs
-const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+const tabs = await chrome.tabs.query({ active: true, currentWindow: true })
 
 // Create tab
-const tab = await chrome.tabs.create({ url: 'https://example.com' });
+const tab = await chrome.tabs.create({ url: 'https://example.com' })
 
 // Update tab
-await chrome.tabs.update(tabId, { url: 'https://new-url.com' });
+await chrome.tabs.update(tabId, { url: 'https://new-url.com' })
 
 // Get tab info (requires host_permissions for URL access)
-const tab = await chrome.tabs.get(tabId);
-console.log(tab.url, tab.title);
+const tab = await chrome.tabs.get(tabId)
+console.log(tab.url, tab.title)
 ```
 
 **Note:** Without `tabs`, you can still query tabs but won't see `url`, `title`, or `favIconUrl`.
@@ -150,19 +150,19 @@ Enable side panel UI.
 
 ```typescript
 // Open side panel
-await chrome.sidePanel.open({ windowId });
+await chrome.sidePanel.open({ windowId })
 
 // Set panel behavior
 await chrome.sidePanel.setOptions({
   tabId,
   path: 'sidepanel.html',
   enabled: true,
-});
+})
 
 // Set panel for all tabs
 await chrome.sidePanel.setPanelBehavior({
   openPanelOnActionClick: true,
-});
+})
 ```
 
 ---
@@ -173,10 +173,10 @@ Access system clipboard.
 
 ```typescript
 // Write (also needs user gesture)
-await navigator.clipboard.writeText('Hello');
+await navigator.clipboard.writeText('Hello')
 
 // Read (needs clipboardRead permission)
-const text = await navigator.clipboard.readText();
+const text = await navigator.clipboard.readText()
 ```
 
 ---
@@ -192,11 +192,11 @@ chrome.notifications.create('notification-id', {
   title: 'Notification Title',
   message: 'Notification body text',
   priority: 2,
-});
+})
 
 chrome.notifications.onClicked.addListener((notificationId) => {
   // Handle click
-});
+})
 ```
 
 ---
@@ -210,14 +210,14 @@ Schedule periodic or one-time events.
 chrome.alarms.create('check-updates', {
   delayInMinutes: 1,
   periodInMinutes: 30,
-});
+})
 
 // Listen for alarm
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === 'check-updates') {
     // Run scheduled task
   }
-});
+})
 ```
 
 ---
@@ -231,14 +231,14 @@ chrome.contextMenus.create({
   id: 'lookup-word',
   title: 'Look up "%s"',
   contexts: ['selection'],
-});
+})
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   if (info.menuItemId === 'lookup-word') {
-    const selectedText = info.selectionText;
+    const selectedText = info.selectionText
     // Handle selection
   }
-});
+})
 ```
 
 ---
@@ -251,10 +251,10 @@ Intercept and modify network requests.
 // Observe requests (needs host_permissions)
 chrome.webRequest.onBeforeRequest.addListener(
   (details) => {
-    console.log('Request to:', details.url);
+    console.log('Request to:', details.url)
   },
   { urls: ['<all_urls>'] }
-);
+)
 
 // Block/redirect (needs declarativeNetRequest in MV3)
 // webRequestBlocking deprecated in MV3 - use declarativeNetRequest instead
@@ -279,7 +279,7 @@ await chrome.declarativeNetRequest.updateDynamicRules({
     },
   }],
   removeRuleIds: [],
-});
+})
 ```
 
 ---
@@ -337,18 +337,18 @@ Request permissions at runtime for better user trust.
 const granted = await chrome.permissions.contains({
   permissions: ['downloads'],
   origins: ['https://api.example.com/*'],
-});
+})
 
 // Request (must be in response to user gesture)
 const success = await chrome.permissions.request({
   permissions: ['downloads'],
   origins: ['https://api.example.com/*'],
-});
+})
 
 // Remove
 await chrome.permissions.remove({
   permissions: ['downloads'],
-});
+})
 ```
 
 ---

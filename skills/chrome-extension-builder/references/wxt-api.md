@@ -15,7 +15,7 @@ export default defineBackground({
   main(ctx) {
     // Background logic
   }
-});
+})
 ```
 
 ### defineContentScript()
@@ -33,7 +33,7 @@ export default defineContentScript({
   main(ctx: ContentScriptContext) {
     // Content script logic
   }
-});
+})
 ```
 
 ### createShadowRootUi()
@@ -53,10 +53,10 @@ const ui = createShadowRootUi(ctx, {
   onRemove?(container: HTMLElement) {
     // Cleanup
   }
-});
+})
 
-ui.mount();
-ui.remove();
+ui.mount()
+ui.remove()
 ```
 
 ### storage
@@ -67,18 +67,18 @@ WXT storage API with type safety.
 import { storage } from 'wxt/storage';
 
 // Get item
-const value = await storage.getItem<T>('local:key');
+const value = await storage.getItem<T>('local:key')
 
 // Set item
-await storage.setItem('local:key', value);
+await storage.setItem('local:key', value)
 
 // Remove item
-await storage.removeItem('local:key');
+await storage.removeItem('local:key')
 
 // Watch for changes
 const unwatch = storage.watch<T>('local:key', (newValue, oldValue) => {
   // Handle change
-});
+})
 ```
 
 ### injectScript()
@@ -90,7 +90,7 @@ import { injectScript } from 'wxt/client';
 
 await injectScript('/script.js', {
   keepInDom: boolean,
-});
+})
 ```
 
 ## Browser API
@@ -99,22 +99,22 @@ WXT provides unified `browser` API that works across all browsers:
 
 ```typescript
 // Tabs
-await browser.tabs.query({ active: true });
-await browser.tabs.sendMessage(tabId, message);
+await browser.tabs.query({ active: true })
+await browser.tabs.sendMessage(tabId, message)
 
 // Runtime
-await browser.runtime.sendMessage(message);
-browser.runtime.onMessage.addListener(handler);
+await browser.runtime.sendMessage(message)
+browser.runtime.onMessage.addListener(handler)
 
 // Storage
-await browser.storage.local.get(key);
-await browser.storage.local.set({ key: value });
-await browser.storage.sync.set({ key: value });
+await browser.storage.local.get(key)
+await browser.storage.local.set({ key: value })
+await browser.storage.sync.set({ key: value })
 
 // Action (toolbar icon)
-browser.action.onClicked.addListener(handler);
-await browser.action.setBadgeText({ text: '5' });
-await browser.action.setIcon({ path: '/icon.png' });
+browser.action.onClicked.addListener(handler)
+await browser.action.setBadgeText({ text: '5' })
+await browser.action.setIcon({ path: '/icon.png' })
 ```
 
 ## Configuration API
@@ -147,7 +147,7 @@ export default defineConfig({
   vite: () => ({
     // Vite config
   }),
-});
+})
 ```
 
 ### defineWebExtConfig()
@@ -189,7 +189,7 @@ export default defineWebExtConfig({
   // Additional preferences
   chromiumProfile: './.wxt/chrome-profile',
   firefoxProfile: './.wxt/firefox-profile',
-});
+})
 ```
 
 **Common Use Cases:**
@@ -205,7 +205,7 @@ export default defineWebExtConfig({
   chromiumArgs: [
     '--user-data-dir=./.wxt/chrome-canary-data',
   ],
-});
+})
 ```
 
 #### Persistent Login Sessions
@@ -218,7 +218,7 @@ export default defineWebExtConfig({
 
   // Start with test page open
   startUrl: 'https://app.example.com/dashboard',
-});
+})
 ```
 
 #### Firefox Developer Edition
@@ -234,7 +234,7 @@ export default defineWebExtConfig({
     './.wxt/firefox-dev-profile',
   ],
   keepProfileChanges: true,
-});
+})
 ```
 
 **Configuration File Location:** `web-ext.config.ts` in project root
@@ -251,11 +251,11 @@ interface ContentScriptContext {
     target: Window | Document | HTMLElement,
     type: K,
     listener: (event: WindowEventMap[K]) => void
-  ): void;
+  ): void
 
-  isValid: boolean;
+  isValid: boolean
 
-  signal: AbortSignal;
+  signal: AbortSignal
 }
 ```
 
@@ -268,7 +268,7 @@ Pattern matching for URLs:
 ```typescript
 import { MatchPattern } from 'wxt/match-pattern';
 
-const pattern = new MatchPattern('*://*.youtube.com/*');
+const pattern = new MatchPattern('*://*.youtube.com/*')
 
 if (pattern.includes('https://www.youtube.com/watch')) {
   // Matches
@@ -281,8 +281,8 @@ Detect SPA navigation:
 
 ```typescript
 ctx.addEventListener(window, 'wxt:locationchange', ({ newUrl }) => {
-  console.log('Navigated to:', newUrl);
-});
+  console.log('Navigated to:', newUrl)
+})
 ```
 
 ## Build APIs
@@ -300,7 +300,7 @@ import.meta.env.VITE_* // Custom env variables
 
 ```typescript
 // Get public asset URL
-const iconUrl = browser.runtime.getURL('/icon/128.png');
+const iconUrl = browser.runtime.getURL('/icon/128.png')
 ```
 
 ## Hooks System
@@ -318,5 +318,5 @@ export default defineConfig({
       // Add/modify public assets
     },
   },
-});
+})
 ```
