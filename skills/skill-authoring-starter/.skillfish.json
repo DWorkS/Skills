@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "name": "skill-authoring-starter",
+  "title": "Skill Authoring Starter",
+  "description": "Create new repository-compatible skills quickly with templates, checklists, and manifest updates.",
+  "owner": "1hakr",
+  "repo": "Skills",
+  "path": "skills/skill-authoring-starter",
+  "branch": "main",
+  "entrypoint": "SKILL.md",
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "source": "manual"
+}

@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "name": "chrome-extension-builder",
+  "title": "Chrome Extension Builder",
+  "description": "Build production-ready Chrome/browser extensions using WXT framework with TypeScript, Vue 3, and Nuxt UI.",
+  "owner": "1hakr",
+  "repo": "Skills",
+  "path": "skills/chrome-extension-builder",
+  "branch": "main",
+  "entrypoint": "SKILL.md",
+  "metadata": {
+    "version": "2.1.0"
+  },
+  "source": "manual"
+}

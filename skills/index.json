@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "repo": "Skills",
+  "description": "Catalog of installable skills in this repository.",
+  "skills": [
+    {
+      "id": "chrome-extension-builder",
+      "name": "chrome-extension-builder",
+      "title": "Chrome Extension Builder",
+      "description": "Build production-ready Chrome/browser extensions using WXT framework with TypeScript, Vue 3, and Nuxt UI.",
+      "path": "skills/chrome-extension-builder",
+      "entrypoint": "skills/chrome-extension-builder/SKILL.md",
+      "metadata": {
+        "version": "2.1.0"
+      }
+    },
+    {
+      "id": "skill-authoring-starter",
+      "name": "skill-authoring-starter",
+      "title": "Skill Authoring Starter",
+      "description": "Create new repository-compatible skills quickly with templates, checklists, and manifest updates.",
+      "path": "skills/skill-authoring-starter",
+      "entrypoint": "skills/skill-authoring-starter/SKILL.md",
+      "metadata": {
+        "version": "1.0.0"
+      }
+    }
+  ]
+}
