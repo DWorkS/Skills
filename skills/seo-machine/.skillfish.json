@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "name": "seo-machine",
+  "title": "SEO Machine",
+  "description": "Replace the Claude Code version of SEO Machine with a Skillfish-compatible GitHub Copilot skill.",
+  "owner": "DWorkS",
+  "repo": "Skills",
+  "path": "skills/seo-machine",
+  "branch": "main",
+  "entrypoint": "SKILL.md",
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "source": "manual"
+}

@@ -26,12 +26,12 @@
       }
     },
     {
-      "id": "seo-machine-copilot",
-      "name": "seo-machine-copilot",
-      "title": "SEO Machine for GitHub Copilot",
-      "description": "Adapt the SEO Machine content workflow for GitHub Copilot and Skillfish-compatible installation.",
-      "path": "skills/seo-machine-copilot",
-      "entrypoint": "skills/seo-machine-copilot/SKILL.md",
+      "id": "seo-machine",
+      "name": "seo-machine",
+      "title": "SEO Machine",
+      "description": "Replace the Claude Code version of SEO Machine with a Skillfish-compatible GitHub Copilot skill.",
+      "path": "skills/seo-machine",
+      "entrypoint": "skills/seo-machine/SKILL.md",
       "metadata": {
         "version": "1.0.0"
       }

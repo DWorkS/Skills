@@ -4,7 +4,7 @@ This repository packages installable Copilot skills in a Skillfish-friendly layo
 
 Current skills:
 - `chrome-extension-builder` at `skills/chrome-extension-builder/SKILL.md`
-- `seo-machine-copilot` at `skills/seo-machine-copilot/SKILL.md`
+- `seo-machine` at `skills/seo-machine/SKILL.md`
 - `skill-authoring-starter` at `skills/skill-authoring-starter/SKILL.md`
 
 Repository guidance for automation lives in `agent.md`, and repository-specific Copilot instructions live in `.github/copilot-instructions.md`.
