@@ -50,6 +50,7 @@ Create a dedicated workspace in the target repository so the skill can act as a 
     │   ├── brand-voice.md
     │   ├── style-guide.md
     │   ├── seo-guidelines.md
+    │   ├── cro-best-practices.md
     │   ├── features.md
     │   ├── internal-links-map.md
     │   ├── target-keywords.md
@@ -86,27 +87,27 @@ Use these commands as named task patterns in GitHub Copilot:
 
 | Original command | Copilot replacement result |
 |---|---|
-- `/research [topic]` | Create a research brief in `research/` with keyword targets, search intent, SERP competitors, content gaps, outline, links, and metadata direction |
-- `/write [topic]` | Create a 2000-3000+ word article draft in `drafts/` and trigger specialist review passes |
-- `/article [topic]` | Run a shorter single-pass article workflow when full orchestration is unnecessary |
-- `/rewrite [topic]` | Update an existing article using an audit or source file and save to `rewrites/` |
-- `/optimize [file]` | Produce a final SEO optimization report and publication readiness review |
-- `/analyze-existing [url/file]` | Audit an existing article or page and save findings in `audits/` or `research/` |
-- `/performance-review` | Use analytics exports to identify opportunities and priority fixes |
-- `/priorities` | Rank topics or pages with a repeatable opportunity-scoring model |
-- `/cluster [topic]` | Produce a pillar/cluster strategy and internal linking plan |
-- `/research-serp` | Perform SERP-focused analysis for a keyword or topic |
-- `/research-gaps` | Produce a competitor content gap report |
-- `/research-trending` | Identify emerging topics and freshness opportunities |
-- `/research-performance` | Tie topic decisions to current performance data |
-- `/research-topics` | Expand topic clusters and supporting article ideas |
-- `/landing-write` | Create a conversion-focused landing page draft |
-- `/landing-audit` | Audit a landing page for conversion and SEO issues |
-- `/landing-research` | Research competitors and positioning for a landing page |
-- `/landing-competitor` | Analyze a competitor landing page deeply |
-- `/landing-publish` | Prepare landing-page publication output |
-- `/publish-draft [file]` | Produce CMS-ready content and publication metadata |
-- `/scrub [file]` | Remove obvious AI patterns and smooth tone before publication |
+| `/research [topic]` | Create a research brief in `research/` with keyword targets, search intent, SERP competitors, content gaps, outline, links, and metadata direction |
+| `/write [topic]` | Create a 2000-3000+ word article draft in `drafts/` and trigger specialist review passes |
+| `/article [topic]` | Run a shorter single-pass article workflow when full orchestration is unnecessary |
+| `/rewrite [topic]` | Update an existing article using an audit or source file and save to `rewrites/` |
+| `/optimize [file]` | Produce a final SEO optimization report and publication readiness review |
+| `/analyze-existing [url/file]` | Audit an existing article or page and save findings in `audits/` or `research/` |
+| `/performance-review` | Use analytics exports to identify opportunities and priority fixes |
+| `/priorities` | Rank topics or pages with a repeatable opportunity-scoring model |
+| `/cluster [topic]` | Produce a pillar/cluster strategy and internal linking plan |
+| `/research-serp` | Perform SERP-focused analysis for a keyword or topic |
+| `/research-gaps` | Produce a competitor content gap report |
+| `/research-trending` | Identify emerging topics and freshness opportunities |
+| `/research-performance` | Tie topic decisions to current performance data |
+| `/research-topics` | Expand topic clusters and supporting article ideas |
+| `/landing-write` | Create a conversion-focused landing page draft |
+| `/landing-audit` | Audit a landing page for conversion and SEO issues |
+| `/landing-research` | Research competitors and positioning for a landing page |
+| `/landing-competitor` | Analyze a competitor landing page deeply |
+| `/landing-publish` | Prepare landing-page publication output |
+| `/publish-draft [file]` | Produce CMS-ready content and publication metadata |
+| `/scrub [file]` | Remove obvious AI patterns and smooth tone before publication |
 
 ## Standard Execution Workflow
 
