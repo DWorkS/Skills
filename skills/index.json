@@ -24,6 +24,17 @@
       "metadata": {
         "version": "1.0.0"
       }
+    },
+    {
+      "id": "seo-machine",
+      "name": "seo-machine",
+      "title": "SEO Machine",
+      "description": "Replace the Claude Code version of SEO Machine with a Skillfish-compatible GitHub Copilot skill.",
+      "path": "skills/seo-machine",
+      "entrypoint": "skills/seo-machine/SKILL.md",
+      "metadata": {
+        "version": "1.0.0"
+      }
     }
   ]
 }

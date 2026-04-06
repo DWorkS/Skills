@@ -4,6 +4,7 @@ This repository packages installable Copilot skills in a Skillfish-friendly layo
 
 Current skills:
 - `chrome-extension-builder` at `skills/chrome-extension-builder/SKILL.md`
+- `seo-machine` at `skills/seo-machine/SKILL.md`
 - `skill-authoring-starter` at `skills/skill-authoring-starter/SKILL.md`
 
 Repository guidance for automation lives in `agent.md`, and repository-specific Copilot instructions live in `.github/copilot-instructions.md`.
@@ -24,4 +25,4 @@ For Skillfish-compatible tooling, the canonical skill definition is the `SKILL.m
 
 ## Repository intent
 
-This repo currently ships one skill, but the layout is intentionally flat and repeatable so more skills can be added without changing the install model.
+This repo currently ships multiple skills, and the layout is intentionally flat and repeatable so more skills can be added without changing the install model.
